@@ -6,15 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.SearchView
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pasandevin.android.seng22243.adapter.PhotoAdapter
 import com.pasandevin.android.seng22243.api.UserAPIService
+import com.pasandevin.android.seng22243.database.AppDatabase
 import com.pasandevin.android.seng22243.databinding.FragmentFirstBinding
 import com.pasandevin.android.seng22243.model.Photo
-import com.pasandevin.android.seng22243.model.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,8 +47,14 @@ class FirstFragment : Fragment() {
         Log.i("beforeenqueing", "before enqueing")
         photos.enqueue(object:Callback<List<Photo>> {
             override fun onResponse(call: Call<List<Photo>>, response: Response<List<Photo>>) {
-                val photosBody = response.body()
-                val adapter = PhotoAdapter(photosBody!!)
+                val photos = response.body()
+                //Database//
+                val db = AppDatabase.getDatabase(view.context)
+                photos?.forEach() {
+                    db.photoDao().insert(it)
+                }
+                //Database//
+                val adapter = PhotoAdapter(photos!!)
                 binding.recyclerview.adapter = adapter
             }
 

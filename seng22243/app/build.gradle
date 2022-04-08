@@ -2,6 +2,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
+    //Database//
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    //Database//
 }
 
 android {
@@ -45,9 +50,25 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //Database//
+    var roomVersion = "2.4.2"
+
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
+    // To use Kotlin Symbolic Processing (KSP)
+//    ksp("androidx.room:room-compiler:$roomVersion")
+    //Database//
+
+
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
 
     // RecyclerView //
     // for adding recyclerview
