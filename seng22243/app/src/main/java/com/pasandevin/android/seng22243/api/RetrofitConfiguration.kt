@@ -1,5 +1,6 @@
 package com.pasandevin.android.seng22243.api
 
+import com.pasandevin.android.seng22243.model.Photo
 import com.pasandevin.android.seng22243.model.User
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -13,6 +14,11 @@ interface UserAPIService {
 
     @GET("users/{userId}")
     fun getUser(@Path("userId") id:String ): Call<User>
+
+    // RecyclerView //
+    @GET("photos" )
+    fun getPhotos(): Call<List<Photo>>
+    // RecyclerView //
 
     companion object {
         val API_URL =  "https://jsonplaceholder.typicode.com/"

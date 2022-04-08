@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.pasandevin.android.seng22243.adapter.PhotoAdapter
 import com.pasandevin.android.seng22243.api.UserAPIService
 import com.pasandevin.android.seng22243.databinding.FragmentFirstBinding
+import com.pasandevin.android.seng22243.model.Photo
 import com.pasandevin.android.seng22243.model.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,35 +44,26 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            val editableid = binding.textId.text
-            val id = editableid.toString()
-            val user = userAPIService.getUser(id)
-            user.enqueue(object : Callback<User> {
-                override fun onResponse(call: Call<User>, response: Response<User>) {
-                    val body = response.body()
-                    body?.let {
-//                        Log.i("FirstFragment Email: ", it.email )
+        // RecyclerView //
+        binding.recyclerview.layoutManager = LinearLayoutManager(view.context)
+        val photos = userAPIService.getPhotos()
+        Log.i("beforeenqueing", "before enqueing")
+        photos.enqueue(object:Callback<List<Photo>> {
+            override fun onResponse(call: Call<List<Photo>>, response: Response<List<Photo>>) {
+                val photosBody = response.body()
+                val adapter = PhotoAdapter(photosBody!!)
+                binding.recyclerview.adapter = adapter
+            }
 
-//                        val id = searchView.getQuery()
-                        binding.textviewId.text = "ID : " + id
-                        binding.textviewUsername.text = "User Name : " + it.username
-                        binding.textviewName.text = "Name : " + it.name
-                        binding.textviewEmail.text = "Email  : " + it.email
-                        binding.textviewTelephone.text = "Phone : " + it.phone
-                    }
-                }
+            override fun onFailure(call: Call<List<Photo>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
+        })
+        // RecyclerView //
 
-            })
-//            binding.buttonFirst.setOnClickListener {
-//                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//            }
 
-        }
+
 
 
     }
