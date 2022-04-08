@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -53,8 +54,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     // for adding cardview
     implementation 'androidx.cardview:cardview:1.0.0'
-    //picasso//
+    //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    // for adding map
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
     // RecyclerView //
 
     testImplementation 'junit:junit:4.13.2'
